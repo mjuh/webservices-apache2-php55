@@ -109,13 +109,13 @@ sh = dash.overrideAttrs (_: rec {
   postInstall = ''(cd "$out/include" && ln -s ImageMagick* ImageMagick)'';
  };
 
-  php56 = stdenv.mkDerivation rec {
-      name = "php-5.6.40";
-      sha256 = "005s7w167dypl41wlrf51niryvwy1hfv53zxyyr3lm938v9jbl7z";
+  php55 = stdenv.mkDerivation rec {
+      name = "php-5.5.38";
+      sha256 = "0f1y76whg6yx9a18mh97f8yq8lb64ri1f0zfr9la9374nbmq2g27";
       enableParallelBuilding = true;
       nativeBuildInputs = [ pkgconfig autoconf ];
       src = fetchurl {
-                 url = "https://www.php.net/distributions/php-5.6.40.tar.bz2";
+                 url = "https://www.php.net/distributions/php-5.5.38.tar.bz2";
                  inherit sha256;
              };
       stripDebugList = "bin sbin lib modules";
@@ -123,7 +123,7 @@ sh = dash.overrideAttrs (_: rec {
       doCheck = false;
       checkTarget = "test";
       patches = [
-        ./patch/php5/mj/php-56-fix-apxs.patch
+        ./patch/php5/mj/php-55-fix-apxs.patch
       ];
       buildInputs = [
          autoconf
@@ -246,30 +246,30 @@ sh = dash.overrideAttrs (_: rec {
       '';     
   };
 
-buildPhp56Package = args: buildPhpPackage ({ php = php56; } // args);
+buildPhp55Package = args: buildPhpPackage ({ php = php55; } // args);
 
 
-php56Packages = {
-  timezonedb = buildPhp56Package {
+php55Packages = {
+  timezonedb = buildPhp55Package {
     name = "timezonedb";
     version = "2019.1";
     sha256 = "0rrxfs5izdmimww1w9khzs9vcmgi1l90wni9ypqdyk773cxsn725";
   };
 
-  dbase = buildPhp56Package {
+  dbase = buildPhp55Package {
       name = "dbase";
       version = "5.1.0";
       sha256 = "15vs527kkdfp119gbhgahzdcww9ds093bi9ya1ps1r7gn87s9mi0";
   };
 
-  intl = buildPhp56Package {
+  intl = buildPhp55Package {
       name = "intl";
       version = "3.0.0";
       sha256 = "11sz4mx56pc1k7llgbbpz2i6ls73zcxxdwa1d0jl20ybixqxmgc8";
       inputs = [ icu58 ];
   };
 
-  imagick = buildPhp56Package {
+  imagick = buildPhp55Package {
       name = "imagick";
       version = "3.1.2";
       sha256 = "528769ac304a0bbe9a248811325042188c9d16e06de16f111fee317c85a36c93";
@@ -279,10 +279,10 @@ php56Packages = {
 };
 
   rootfs = mkRootfs {
-      name = "apache2-php56-rootfs";
+      name = "apache2-php55-rootfs";
       src = ./rootfs;
-      inherit curl coreutils findutils apacheHttpdmpmITK apacheHttpd mjHttpErrorPages php56 postfix s6 execline connectorc mjperl5Packages ;
-      ioncube = ioncube.v56;
+      inherit curl coreutils findutils apacheHttpdmpmITK apacheHttpd mjHttpErrorPages php55 postfix s6 execline connectorc mjperl5Packages ;
+      ioncube = ioncube.v55;
       s6PortableUtils = s6-portable-utils;
       s6LinuxUtils = s6-linux-utils;
       mimeTypes = mime-types;
@@ -322,7 +322,7 @@ in
 
 pkgs.dockerTools.buildLayeredImage rec {
   maxLayers = 124;
-  name = "docker-registry.intr/webservices/apache2-php56";
+  name = "docker-registry.intr/webservices/apache2-php55";
   tag = if gitAbbrev != "" then gitAbbrev else "latest";
   contents = [
     rootfs
@@ -357,7 +357,7 @@ pkgs.dockerTools.buildLayeredImage rec {
          perlPackages.JSONXS
          perlPackages.POSIXstrftimeCompiler
          perlPackages.perl
-  ] ++ collect isDerivation php56Packages;
+  ] ++ collect isDerivation php55Packages;
   config = {
     Entrypoint = [ "${rootfs}/init" ];
     Env = [

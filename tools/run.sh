@@ -2,7 +2,7 @@
 #docker pull docker-registry.intr/webservices/php52:master
 docker run --rm  \
            --read-only \
-           --name apache-56-test-8075 \
+           --name apache-55-test-8075 \
            --net=host \
            --mount type=tmpfs,destination=/run \
            --mount type=tmpfs,destination=/tmp,tmpfs-mode=1777 \
@@ -16,7 +16,7 @@ docker run --rm  \
             -v $(pwd)/lib-postfix:/var/lib/postfix:rw \
             -v $(pwd)/phpsec/defaultsec.ini:/etc/php.d/defaultsec.ini:ro \
             -v $(pwd)/sites-enabled:/read/sites-enabled:ro \
-            docker-registry.intr/webservices/php56:master
+            docker-registry.intr/webservices/php55:master
 
 
 #-v $(pwd)/postfix-conf-test:/etc/postfix:ro \
