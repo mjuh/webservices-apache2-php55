@@ -126,6 +126,7 @@ sh = dash.overrideAttrs (_: rec {
         ./patch/php5/mj/php-55-fix-apxs.patch
       ];
       buildInputs = [
+         postfix
          autoconf
          automake
          pkgconfig
