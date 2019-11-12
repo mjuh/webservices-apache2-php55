@@ -19,7 +19,8 @@ let
     name = "apache2-rootfs-php55";
     src = ./rootfs;
     inherit curl coreutils findutils apacheHttpdmpmITK apacheHttpd
-      mjHttpErrorPages postfix s6 execline;
+      mjHttpErrorPages s6 execline;
+                                   postfix = sendmail;
     zendguard = zendguard.loader-php55;
     php55 = phpDeprecated.php55;
     mjperl5Packages = mjperl5lib;
@@ -49,7 +50,7 @@ pkgs.dockerTools.buildLayeredImage rec {
     rootfs
     tzdata
     locale
-    postfix
+                                  sendmail
     sh
     coreutils
     libjpeg_turbo
