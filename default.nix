@@ -18,7 +18,7 @@ let
   rootfs = mkRootfs {
     name = "apache2-rootfs-php55";
     src = ./rootfs;
-    inherit curl coreutils findutils apacheHttpdmpmITK apacheHttpd
+    inherit zlib curl coreutils findutils apacheHttpdmpmITK apacheHttpd
       mjHttpErrorPages s6 execline;
     postfix = sendmail;
     zendguard = zendguard.loader-php55;
@@ -51,6 +51,7 @@ pkgs.dockerTools.buildLayeredImage rec {
     perl
     gcc-unwrapped.lib
     glibc
+    zlib
   ]
   ++ collect isDerivation phpDeprecatedPackages.php55Packages
   ++ collect isDerivation mjperl5Packages;
