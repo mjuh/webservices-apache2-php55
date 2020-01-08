@@ -80,5 +80,7 @@ pkgs.dockerTools.buildLayeredImage rec {
       ln -s ${php55} opt/php55
       ln -s /bin usr/sbin
       ln -s /bin usr/local/bin
+      mkdir tmp
+      chmod 1777 tmp
     '';
 }
