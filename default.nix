@@ -20,7 +20,7 @@ let
     name = "apache2-rootfs-php55";
     src = ./rootfs;
     inherit zlib curl coreutils findutils apacheHttpdmpmITK apacheHttpd
-      mjHttpErrorPages s6 execline php55;
+      mjHttpErrorPages s6 execline php55 logger;
     postfix = sendmail;
     zendguard = zendguard.loader-php55;
     mjperl5Packages = mjperl5lib;
@@ -52,6 +52,7 @@ pkgs.dockerTools.buildLayeredImage rec {
     glibc
     zlib
     mariadbConnectorC
+    logger
     perl520
   ]
   ++ collect isDerivation php55Packages
