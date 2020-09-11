@@ -14,7 +14,7 @@ let
   phpVersion = "php" + lib.versions.major php55.version
     + lib.versions.minor php55.version;
   containerStructureTestConfig = ./tests/container-structure-test.yaml;
-  image = callPackage ./default.nix { inherit overlayUrl overlayRef; };
+  image = callPackage ./default.nix { inherit nixpkgs; };
 
 in maketestPhp {
   inherit image;
