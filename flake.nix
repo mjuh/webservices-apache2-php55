@@ -13,7 +13,7 @@
 
     defaultPackage.x86_64-linux = self.packages.x86_64-linux.container;
 
-    packages.x86_64-linux.deploy = majordomo.outputs.deploy { tag = "webservices/apache2-php72"; };
+    packages.x86_64-linux.deploy = majordomo.outputs.deploy { tag = "webservices/apache2-php55"; };
 
   };
 }
