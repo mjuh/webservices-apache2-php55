@@ -15,7 +15,8 @@ let
     name = "apache2-rootfs-php55";
     src = ./rootfs;
     inherit zlib curl coreutils findutils apacheHttpdmpmITK apacheHttpd
-      mjHttpErrorPages s6 execline php55 logger;
+      s6 execline php55 logger;
+    mjHttpErrorPages = mj-http-error-pages;
     postfix = sendmail;
     zendguard = zendguard.loader-php55;
     mjperl5Packages = mjperl5lib;
@@ -33,16 +34,19 @@ pkgs.dockerTools.buildLayeredImage rec {
   tag = "latest";
   contents = [
     rootfs
-    tzdata apacheHttpd
+    tzdata
+    apacheHttpd
     locale
     sendmail
     sh
     coreutils
     libjpeg_turbo
     jpegoptim
-    (optipng.override{ inherit libpng ;})
+    (optipng.override { inherit libpng; })
     imagemagick
-    gifsicle nss-certs.unbundled zip
+    gifsicle
+    nss-certs.unbundled
+    zip
     gcc-unwrapped.lib
     glibc
     zlib
@@ -69,18 +73,18 @@ pkgs.dockerTools.buildLayeredImage rec {
       ru.majordomo.docker.exec.reload-cmd = "${apacheHttpd}/bin/httpd -d ${rootfs}/etc/httpd -k graceful";
     };
   };
-    extraCommands = ''
-      set -xe
-      ls
-      mkdir -p etc
-      mkdir -p bin
-      chmod u+w usr
-      mkdir -p usr/local
-      mkdir -p opt
-      ln -s ${php55} opt/php55
-      ln -s /bin usr/sbin
-      ln -s /bin usr/local/bin
-      mkdir tmp
-      chmod 1777 tmp
-    '';
+  extraCommands = ''
+    set -xe
+    ls
+    mkdir -p etc
+    mkdir -p bin
+    chmod u+w usr
+    mkdir -p usr/local
+    mkdir -p opt
+    ln -s ${php55} opt/php55
+    ln -s /bin usr/sbin
+    ln -s /bin usr/local/bin
+    mkdir tmp
+    chmod 1777 tmp
+  '';
 }
